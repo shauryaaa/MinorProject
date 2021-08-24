@@ -27,9 +27,38 @@ const render = (ctx, predictions) => {
       Math.round(width),
       Math.round(height)
     )
-  })
+  }
+  const detectFromVideoFrame = async video => {
+  try {
+    const predictions = await objectDetector.detect(video)
+    const personDetections = predictions.filter(p => p.class === "human")
+    showDetections(video, personDetections)
+    var audio = new Audio('humans.mp3');
+     audio.play();
+    requestAnimationFrame(() => {
+      detectFromVideoFrame(video)
+    })
+  } catch (error) {
+    console.log("error")
+    console.error(error)
+  }
+})
 }
-
+ try {
+    const predictions = await objectDetector.detect(video)
+    const personDetections = predictions.filter(p => p.class === "animal")
+    showDetections(video, personDetections)
+    var audio = new Audio('animals.mp3');
+     audio.play();
+    requestAnimationFrame(() => {
+      detectFromVideoFrame(video)
+    })
+  } catch (error) {
+    console.log("error")
+    console.error(error)
+  }
+})
+}
 const App = () => {
   const model = useModel(process.env.PUBLIC_URL + '/model_web')
 
