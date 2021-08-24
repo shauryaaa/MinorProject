@@ -28,12 +28,22 @@ const render = (ctx, predictions) => {
       Math.round(height)
     )
   }
+ function delay(delayInms) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(2);
+    }, delayInms);
+  });
+}
+
+sample();
   const detectFromVideoFrame = async video => {
   try {
     const predictions = await objectDetector.detect(video)
     const personDetections = predictions.filter(p => p.class === "human")
     showDetections(video, personDetections)
     var audio = new Audio('humans.mp3');
+    let delayres = await delay(7000);
      audio.play();
     requestAnimationFrame(() => {
       detectFromVideoFrame(video)
@@ -48,6 +58,7 @@ const render = (ctx, predictions) => {
     const predictions = await objectDetector.detect(video)
     const personDetections = predictions.filter(p => p.class === "animal")
     showDetections(video, personDetections)
+    let delayres = await delay(7000);
     var audio = new Audio('animals.mp3');
      audio.play();
     requestAnimationFrame(() => {
